@@ -57,12 +57,12 @@ export function generateICS(weather, locationName, units, tempMode) {
     const tempDisplay =
       tempMode === "day"
         ? `${tDay}${tempUnit}`
-        : `${tMin}${tempUnit} – ${tMax}${tempUnit}`;
+        : `${tMin}..${tMax}${tempUnit}`;
 
-    const summary = `${wmo.emoji} ${wmo.label} ${tempDisplay}`;
+    const summary = `${tempDisplay} ${wmo.emoji} ${wmo.label}`;
 
     const descLines = [
-      `🌡 Temperature: ${tMin}${tempUnit} – ${tMax}${tempUnit}`,
+      `🌡 Temperature: ${tMin} .. ${tMax}${tempUnit}`,
       `${wmo.emoji} Condition: ${wmo.label}`,
       precip > 0
         ? `💧 Precipitation: ${precip} ${precipUnit} (${precipProb}% chance)`
