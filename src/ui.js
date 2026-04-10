@@ -214,14 +214,23 @@ $('submit-btn').addEventListener('click', async () => {
       '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 1C3.79 1 2 2.79 2 5c0 3 4 7 4 7s4-4 4-7c0-2.21-1.79-4-4-4z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>'
       + data.location;
 
-    $('days-grid').innerHTML = data.days.map(d => \`
-      <div class="day-card">
-        <div class="day-name">\${formatDate(d.date)}</div>
-        <div class="day-icon">\${WMO[d.code] || '🌡'}</div>
-        <div class="day-temp">\${Math.round(d.tMin)}<span>°</span> – \${Math.round(d.tMax)}<span>°</span></div>
-        <div class="day-label">\${WMO_LABEL[d.code] || ''}</div>
-      </div>
-    \`).join('');
+    $('days-grid').innerHTML = data.days.map(d => {
+      const tempHtml = temp === 'day'
+        ? Math.round((d.tMin + d.tMax) / 2) + '<span>°</span>'
+        : Math.round(d.tMin) + '° .. ' + Math.round(d.tMax) + '<span>°</span>';
+      const windHtml = d.windMax > 0
+        ? ' · ' + d.windMax + ' m/s'
+        : ''
+
+      return \`
+        <div class="day-card">
+          <div class="day-name">\${formatDate(d.date)}</div>
+          <div class="day-icon">\${WMO[d.code] || '🌡'}</div>
+          <div class="day-temp">\${tempHtml}</div>
+          <div class="day-label">\${WMO_LABEL[d.code] || ''} \${windHtml}</div>
+        </div>
+      \`;
+    }).join('');
     $('preview').style.display = 'block';
 
     const origin = window.location.origin;

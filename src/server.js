@@ -1,6 +1,6 @@
 import http from "http";
 import { URL } from "url";
-import { generateICS } from "./ics.js";
+import { generateICS, windDirection } from "./ics.js";
 import { fetchWeather } from "./weather.js";
 import { geocode } from "./geocode.js";
 import { UI_HTML } from "./ui.js";
@@ -38,6 +38,7 @@ const server = http.createServer(async (req, res) => {
   // ── /preview — JSON endpoint for the UI (3-day weather preview) ──────────
   if (url.pathname === "/preview") {
     const units = url.searchParams.get("units") === "imperial" ? "imperial" : "metric";
+    const windUnit = units === "imperial" ? "mph" : "m/s";
 
     try {
       const { lat, lon, locationName } = await resolveLocation(url.searchParams);
@@ -48,6 +49,8 @@ const server = http.createServer(async (req, res) => {
         code: weather.weather_code[i],
         tMax: weather.temperature_2m_max[i],
         tMin: weather.temperature_2m_min[i],
+        windMax: Math.round(weather.windspeed_10m_max[i]),
+        windDir: windDirection(weather.winddirection_10m_dominant[i]),
         precip: weather.precipitation_sum[i],
         precipProb: weather.precipitation_probability_max[i],
       }));

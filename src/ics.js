@@ -24,14 +24,14 @@ function foldLine(line) {
   return parts.join("\r\n ");
 }
 
-function windDirection(deg) {
+export function windDirection(deg) {
   const dirs = ["N","NE","E","SE","S","SW","W","NW"];
   return dirs[Math.round(deg / 45) % 8];
 }
 
 export function generateICS(weather, locationName, units, tempMode) {
   const tempUnit = units === "imperial" ? "°F" : "°C";
-  const windUnit = units === "imperial" ? "mph" : "km/h";
+  const windUnit = units === "imperial" ? "mph" : "m/s";
   const precipUnit = units === "imperial" ? "in" : "mm";
   const now = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
 
@@ -69,7 +69,7 @@ export function generateICS(weather, locationName, units, tempMode) {
         : `☀️ No significant precipitation`,
       `💨 Wind: ${windDir} ${windMax} ${windUnit}${windGust > windMax ? ` (gusts ${windGust})` : ""}`,
       sunrise && sunset ? `🌅 Sunrise: ${sunrise}  🌇 Sunset: ${sunset}` : "",
-      `📍 ${locationName}`,
+      // `📍 ${locationName}`,
     ].filter(Boolean).join("\n");
 
     const uid = `weather-${dateStr}-${locationName.replace(/[^a-z0-9]/gi, "")}-${randomUUID().slice(0, 8)}@weather-cal`;

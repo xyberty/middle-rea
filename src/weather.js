@@ -36,7 +36,7 @@ export function wmoCode(code) {
 
 export async function fetchWeather(lat, lon, units, days) {
   const tempUnit = units === "imperial" ? "fahrenheit" : "celsius";
-  const windUnit = units === "imperial" ? "mph" : "kmh";
+  const windUnit = units === "imperial" ? "mph" : "ms";
 
   const url = new URL("https://api.open-meteo.com/v1/forecast");
   url.searchParams.set("latitude", lat);
