@@ -217,7 +217,7 @@ $('submit-btn').addEventListener('click', async () => {
     $('days-grid').innerHTML = data.days.map(d => {
       const tempHtml = temp === 'day'
         ? Math.round((d.tMin + d.tMax) / 2) + '<span>°</span>'
-        : Math.round(d.tMin) + '° .. ' + Math.round(d.tMax) + '<span>°</span>';
+        : Math.round(d.tMin) + '<span>°</span> .. ' + Math.round(d.tMax) + '<span>°</span>';
       const windHtml = d.windMax > 0
         ? ' · ' + d.windMax + ' m/s'
         : ''
